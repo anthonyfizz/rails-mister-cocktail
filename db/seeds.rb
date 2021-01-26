@@ -10,7 +10,6 @@
 
 # http://ruby-doc.org/stdlib-2.0.0/libdoc/open-uri/rdoc/OpenURI.html
 require 'open-uri'
-# https://github.com/flori/json
 require 'json'
 
 puts 'Cleaning database...'
@@ -30,4 +29,33 @@ list.first(20).each do |hash|
   puts "Created #{ingredient.name}"
 end
 
+puts 'Finished!'
+
+puts 'Cleaning database...'
+Cocktail.destroy_all
+
+puts 'Creating cocktails...'
+mojito = { name: 'mojito' }
+cuba_libre = { name: 'cuba_libre' }
+caipi = { name: 'caipi' }
+yagger_bomb = { name: 'yagger bomb' }
+
+[mojito, cuba_libre, caipi, yagger_bomb].each do |element|
+  cocktail = Cocktail.create!(element)
+  puts "Created #{cocktail.name}"
+end
+puts 'Finished!'
+
+puts 'Cleaning database...'
+
+puts 'Creating doses...'
+basilic = { description: '2 slice', cocktail: Cocktail.all[0], ingredient: Ingredient.all[0] }
+cl = { description: '2 cl de cuillere a café', cocktail: Cocktail.all[1], ingredient: Ingredient.all[1] }
+ml = { description: '50 ml cuillere a soupe', cocktail: Cocktail.all[2], ingredient: Ingredient.all[2] }
+ice = { description: '3 round ice', cocktail: Cocktail.all[3], ingredient: Ingredient.all[3] }
+
+[cl, ml, ice, basilic].each do |add|
+  dose = Dose.create!(add)
+  puts "Created #{dose.cocktail.name}, #{dose.description}, #{dose.ingredient.name}"
+end
 puts 'Finished!'
